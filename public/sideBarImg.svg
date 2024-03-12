@@ -1,0 +1,18 @@
+<svg width="103.000000" height="103.000000" viewBox="0 0 103 103" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<desc>
+			Created with Pixso.
+	</desc>
+	<defs/>
+	<path id="Mask" d="M0 0L83 0C94.0459 0 103 8.95428 103 20L103 83C103 94.0457 94.0459 103 83 103L0 103L0 0Z" fill="#7C5DFA" fill-opacity="1.000000" fill-rule="evenodd"/>
+	<mask id="mask0_8961" mask-type="alpha" maskUnits="userSpaceOnUse" x="0.000000" y="0.000000" width="103.000000" height="103.000000">
+		<path id="Mask" d="M0 0L83 0C94.0459 0 103 8.95428 103 20L103 83C103 94.0457 94.0459 103 83 103L0 103L0 0Z" fill="#7C5DFA" fill-opacity="1.000000" fill-rule="evenodd"/>
+	</mask>
+	<g mask="url(#mask0_8961)">
+		<path id="Rectangle Copy 3" d="M103 52L20 52C8.9541 52 0 60.9543 0 72L0 135C0 146.046 8.9541 155 20 155L103 155L103 52Z" fill="#9277FF" fill-opacity="1.000000" fill-rule="evenodd"/>
+	</g>
+	<mask id="mask_0_8966" fill="white">
+		<path id="Combined Shape" d="M42.6943 33.2922L52 52L61.3057 33.2922C67.6646 36.6408 72 43.3141 72 51C72 62.0457 63.0459 71 52 71C40.9541 71 32 62.0457 32 51C32 43.3141 36.3354 36.6408 42.6943 33.2922Z" clip-rule="evenodd" fill="" fill-opacity="1.000000" fill-rule="evenodd"/>
+	</mask>
+	<path id="Combined Shape" d="M42.6943 33.2922L52 52L61.3057 33.2922C67.6646 36.6408 72 43.3141 72 51C72 62.0457 63.0459 71 52 71C40.9541 71 32 62.0457 32 51C32 43.3141 36.3354 36.6408 42.6943 33.2922Z" clip-rule="evenodd" fill="#FFFFFF" fill-opacity="1.000000" fill-rule="evenodd" mask="url(#mask_0_8966)"/>
+	<path id="Combined Shape" d="" fill="#979797" fill-opacity="0.000000" fill-rule="nonzero"/>
+</svg>
