@@ -4,10 +4,10 @@ import {FormEvent, useState} from "react"
 import {createdAt, invoiceId, paymentDueFunc} from "../utils"
 import {RootState, allInterface} from "../interface/interfaceData"
 import {nanoid} from "@reduxjs/toolkit"
-import {toast} from "react-toastify"
 import {useAppDispatch} from "../redux/store"
 import {useNavigate} from "react-router-dom"
 import {animateScroll} from "react-scroll"
+import { toast } from "sonner"
 
 interface Row {
   [key: string]: string
@@ -25,23 +25,22 @@ function Drawer() {
 
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
-
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const formData = new FormData(e.target as HTMLFormElement)
-    const senderStreet = formData.get("senderStreet") as string
-    const senderCity = formData.get("senderCity") as string
-    const senderPostCode = formData.get("senderPostCode") as string
-    const senderCountry = formData.get("senderCountry") as string
-    const clientName = formData.get("clientName") as string
-    const clientStreet = formData.get("clientStreet") as string
-    const clientCity = formData.get("clientCity") as string
-    const clientPostCode = formData.get("clientPostCode") as string
-    const clientCountry = formData.get("clientCountry") as string
-    const invoiceDate = formData.get("invoiceDate") as string
-    const clientEmail = formData.get("clientEmail") as string
-    const paymentTerms = formData.get("paymentTerms") as string
-    const description = formData.get("description") as string
+    const formData = new FormData(e.target as HTMLFormElement),
+      senderStreet = formData.get("senderStreet") as string,
+      senderCity = formData.get("senderCity") as string,
+      senderPostCode = formData.get("senderPostCode") as string,
+      senderCountry = formData.get("senderCountry") as string,
+      clientName = formData.get("clientName") as string,
+      clientStreet = formData.get("clientStreet") as string,
+      clientCity = formData.get("clientCity") as string,
+      clientPostCode = formData.get("clientPostCode") as string,
+      clientCountry = formData.get("clientCountry") as string,
+      invoiceDate = formData.get("invoiceDate") as string,
+      clientEmail = formData.get("clientEmail") as string,
+      paymentTerms = formData.get("paymentTerms") as string,
+      description = formData.get("description") as string
 
     let total = 0
     const items = Array.from(formData.getAll("itemName")).map((name, index) => {

@@ -3,11 +3,11 @@ import {NavLink, useParams} from "react-router-dom"
 import StatusBtn from "../components/StatusBtn"
 import Modal from "../components/Modal"
 import {useEffect, useState} from "react"
-import {toast} from "react-toastify"
 import {allInterface} from "../interface/interfaceData"
 import {nanoid} from "@reduxjs/toolkit"
 import Loading from "../components/Loading"
 import {animateScroll} from "react-scroll"
+import {toast} from "sonner"
 
 function InvoicesDetail() {
   const [invoice, setInvoice] = useState<allInterface | null>(null)
@@ -63,7 +63,7 @@ function InvoicesDetail() {
               <StatusBtn status={invoice.status} />
             </div>
             <div className="flex items-center gap-x-2 max-[600px]:hidden">
-              <button className="w-[73px] h-[48px] rounded-[25px] font-bold text-xs transition dark:bg-[#252945] dark:text-[#DFE3FA] bg-[#F9FAFE]">
+              <button className="w-[73px] h-[48px] rounded-[25px] font-bold text-xs transition text-[#7E88C3] dark:bg-[#252945] dark:text-[#DFE3FA] bg-[#F9FAFE]">
                 Edit
               </button>
               <Modal id={invoice.id} />

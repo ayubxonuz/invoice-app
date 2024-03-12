@@ -1,8 +1,8 @@
 import {fetchDelete} from "../redux/invoiceSlice"
 import {useNavigate} from "react-router-dom"
-import {toast} from "react-toastify"
 import {useState} from "react"
 import {useAppDispatch} from "../redux/store"
+import { toast } from "sonner"
 
 type modalProps = {
   id: string

@@ -23,7 +23,7 @@ function Navbar() {
         </p>
       </div>
       <div className="flex items-center gap-x-6 max-[570px]:gap-x-[18px]">
-      <div className="dropdown max-[570px]:dropdown-end max-[570px]:w-min w-44 font-bold text-[12px] mt-2">
+        <div className="dropdown max-[570px]:dropdown-end max-[570px]:w-min w-44 font-bold text-[12px] mt-2">
           <div className="max-[570px]:hidden" tabIndex={0} role="button">
             <div className="flex gap-x-2 dark:text-[#FFFFFF] text-black max-[570px]:justify-end">
               Filter by status

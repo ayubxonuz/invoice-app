@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
 import {allInterface} from "../interface/interfaceData"
-import {toast} from "react-toastify"
+import {toast} from "sonner"
 
 const BASE_URL: string = "https://invoicesdata.onrender.com/data"
 

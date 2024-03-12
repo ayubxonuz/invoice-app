@@ -1,6 +1,5 @@
 import InvoicesList from "../components/InvoicesList"
 import Navbar from "../components/Navbar"
-
 function Home() {
   return (
     <>
@@ -9,5 +8,4 @@ function Home() {
     </>
   )
 }
-
 export default Home
