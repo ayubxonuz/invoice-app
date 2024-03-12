@@ -8,7 +8,7 @@ type modalProps = {
   id: string
 }
 
-function Modal({id}: modalProps) {
+function ModalBottom({id}: modalProps) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
@@ -33,7 +33,7 @@ function Modal({id}: modalProps) {
         className="w-[89px] max-[600px]:w-auto max-[600px]:px-5 max-[600px]:py-4 max-[600px]:text-[11px] max-[600px]:h-auto transition hover:bg-[#FF9797] h-[48px] text-xs bg-[#EC5757] text-white rounded-[25px] font-bold"
         onClick={() => {
           const modal = document.getElementById(
-            "my_modal_2"
+            "my_modal_3"
           ) as HTMLDialogElement | null
           modal?.showModal()
         }}
@@ -41,7 +41,7 @@ function Modal({id}: modalProps) {
         Delete
       </button>
 
-      <dialog id="my_modal_2" className="modal">
+      <dialog id="my_modal_3" className="modal">
         <div className="modal-box p-12 bg-[#FFFFFF] dark:bg-[#1E2139]">
           <h3 className="font-bold text-[#0C0E16] dark:text-[#FFFFFF] text-[24px] mb-[13px] tracking-[-0.5px]">
             Confirm Deletion
@@ -76,4 +76,4 @@ function Modal({id}: modalProps) {
   )
 }
 
-export default Modal
+export default ModalBottom

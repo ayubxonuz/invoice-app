@@ -17,8 +17,8 @@ function Invoice({data}: invoiceProps) {
               <span className="text-[#7E88C3]">#</span>
               {data.id}
             </p>
-            <div className="flex gap-x-12 max-[760px]:block items-center">
-              <p className="text-xs w-16 max-[760px]:w-full inline-grid dark:text-[#DFE3FA] text-start  text-[#888EB0]  tracking-[-0.25px]">
+            <div className="flex gap-x-24 max-[760px]:block items-center">
+              <p className="text-xs ruby w-16 max-[760px]:w-full dark:text-[#DFE3FA] text-start  text-[#888EB0]  tracking-[-0.25px]">
                 {data.paymentDue}
               </p>
               <p className="text-[#858BB2] dark:text-[#FFFFFF] text-xs tracking-[-0.25px]">

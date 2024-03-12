@@ -8,6 +8,7 @@ import {nanoid} from "@reduxjs/toolkit"
 import Loading from "../components/Loading"
 import {animateScroll} from "react-scroll"
 import {toast} from "sonner"
+import ModalBottom from "../components/ModalBottom"
 
 function InvoicesDetail() {
   const [invoice, setInvoice] = useState<allInterface | null>(null)
@@ -220,7 +221,7 @@ function InvoicesDetail() {
                 Edit
               </button>
               <div className="flex items-center gap-x-2">
-                <Modal id={invoice.id} />
+                <ModalBottom id={invoice.id} />
                 <button className="px-4 py-4 text-[11px] hover:bg-[#9277FF] transition text-[#FFFFFF] bg-[#7C5DFA] rounded-[25px] font-bold">
                   Mark as Paid
                 </button>
