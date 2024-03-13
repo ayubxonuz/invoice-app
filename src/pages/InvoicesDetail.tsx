@@ -30,7 +30,6 @@ function InvoicesDetail() {
           throw new Error("Failed to retrieve data")
         }
         const data = await req.json()
-        console.log(data)
 
         setInvoice(data)
       } catch (error: any) {
@@ -96,14 +95,14 @@ function InvoicesDetail() {
                 <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                   Invoice Date
                 </p>
-                <h3 className="font-bold dark:text-[#FFFFFF] text-[#0C0E16] mt-3 text-[15px] tracking-[-0.31px]">
+                <h3 className="font-bold max-[420px]:text-[14px] dark:text-[#FFFFFF] text-[#0C0E16] mt-3 text-[15px] tracking-[-0.31px]">
                   {invoice.createdAt}
                 </h3>
                 <div className="mt-6 max-[688px]:mt-5">
-                  <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
+                  <p className="text-[#7E88C3] mb-3 dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                     Payment Due
                   </p>
-                  <h3 className="font-bold dark:text-[#FFFFFF] text-[#0C0E16] mt-3 text-[15px] tracking-[-0.31px]">
+                  <h3 className="font-bold max-[420px]:text-[14px] ruby  dark:text-[#FFFFFF] text-[#0C0E16] text-[15px] tracking-[-0.31px]">
                     {invoice.paymentDue}
                   </h3>
                 </div>
@@ -112,7 +111,7 @@ function InvoicesDetail() {
                 <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                   Bill To
                 </p>
-                <h3 className="font-bold mt-3 dark:text-[#FFFFFF] text-[#0C0E16] text-[15px] tracking-[-0.31px]">
+                <h3 className="font-bold text-[calc(0.3vw+0.6rem)] mt-3 dark:text-[#FFFFFF] text-[#0C0E16] tracking-[-0.31px]">
                   {invoice.clientName}
                 </h3>
                 <div className="grid gap-y-1 mt-2 max-[688px]:mt-5">

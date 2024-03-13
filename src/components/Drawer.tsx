@@ -7,7 +7,7 @@ import {nanoid} from "@reduxjs/toolkit"
 import {useAppDispatch} from "../redux/store"
 import {useNavigate} from "react-router-dom"
 import {animateScroll} from "react-scroll"
-import { toast } from "sonner"
+import {toast} from "sonner"
 
 interface Row {
   [key: string]: string
@@ -25,6 +25,7 @@ function Drawer() {
 
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
+
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement),
@@ -70,7 +71,7 @@ function Drawer() {
       paymentTerms,
       clientName,
       clientEmail,
-      status: "paid",
+      status: "pending",
       senderAddress: {
         street: senderStreet,
         city: senderCity,

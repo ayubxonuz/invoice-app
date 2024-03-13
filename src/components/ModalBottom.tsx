@@ -41,9 +41,9 @@ function ModalBottom({id}: modalProps) {
         Delete
       </button>
 
-      <dialog id="my_modal_3" className="modal">
-        <div className="modal-box p-12 bg-[#FFFFFF] dark:bg-[#1E2139]">
-          <h3 className="font-bold text-[#0C0E16] dark:text-[#FFFFFF] text-[24px] mb-[13px] tracking-[-0.5px]">
+      <dialog id="my_modal_3" className="modal p-7">
+        <div className="modal-box p-8 max-w-[400px] w-full bg-[#FFFFFF] dark:bg-[#1E2139]">
+          <h3 className="font-bold text-[#0C0E16] dark:text-[#FFFFFF] text-[20px] mb-[13px] tracking-[-0.5px]">
             Confirm Deletion
           </h3>
           <p className="text-[#888EB0] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">

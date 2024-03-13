@@ -2,9 +2,17 @@ import {NavLink} from "react-router-dom"
 import {toggleFunc} from "../redux/invoiceSlice"
 import {NavArrowUp} from "iconoir-react"
 import {useAppDispatch} from "../redux/store"
+import {useSelector} from "react-redux"
+import {RootState} from "../interface/interfaceData"
 
 function Navbar() {
   const dispatch = useAppDispatch()
+  const {allData, toggleSideBar} = useSelector(
+    (store: RootState) => store.invoiceSlice
+  )
+  toggleSideBar
+    ? document.body.classList.add("overflow-hidden")
+    : document.body.classList.remove("overflow-hidden")
 
   return (
     <div className="flex justify-between items-center max-[1040px]:mt-[56px] max-[570px]:mt-8">
@@ -16,10 +24,10 @@ function Navbar() {
           Invoices
         </NavLink>
         <p className="text-xs text-[#888EB0] dark:text-[#DFE3FA] max-[570px]:hidden tracking-[-0.25px]">
-          There are 7 total invoices
+          There are {allData?.length} total invoices
         </p>
         <p className="text-xs text-[#888EB0] hidden max-[570px]:block tracking-[-0.25px]">
-          7 invoices
+          {allData?.length} invoices
         </p>
       </div>
       <div className="flex items-center gap-x-6 max-[570px]:gap-x-[18px]">

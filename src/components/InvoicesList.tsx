@@ -15,7 +15,6 @@ function InvoicesList() {
   const dispatch = useAppDispatch()
   useEffect(() => {
     dispatch(fetchData())
-    console.log(1)
   }, [dispatch])
 
   return (
