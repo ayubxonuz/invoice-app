@@ -146,7 +146,11 @@ function Drawer() {
     <div>
       {toggleSideBar && (
         <div
-          onClick={() => dispatch(toggleFunc())}
+          onClick={() => {
+            if (!loading) {
+              dispatch(toggleFunc())
+            }
+          }}
           className="fixed bg-black bg-opacity-50 w-full top-0 left-0 bottom-0"
         ></div>
       )}
@@ -168,10 +172,11 @@ function Drawer() {
                 Street Address
               </span>
               <input
+                disabled={loading}
                 name="senderStreet"
                 type="text"
                 placeholder="19 Union Terrace"
-                className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2 tracking-[-0.25px] input-bordered w-full max-w-full"
+                className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2 tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
               />
 
               <div className="grid grid-cols-3 gap-x-6 mt-6 max-[550px]:grid-cols-2">
@@ -180,10 +185,11 @@ function Drawer() {
                     City
                   </span>
                   <input
+                    disabled={loading}
                     name="senderCity"
                     type="text"
                     placeholder="London"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full"
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
                 <label className="form-control w-full max-w-full">
@@ -191,10 +197,11 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
+                    disabled={loading}
                     name="senderPostCode"
                     type="text"
                     placeholder="E1 3EZ"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
                 <label className="form-control w-full max-[550px]:mt-6 max-w-full">
@@ -202,10 +209,11 @@ function Drawer() {
                     Country
                   </span>
                   <input
+                    disabled={loading}
                     name="senderCountry"
                     type="text"
                     placeholder="United Kingdom"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full"
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
               </div>
@@ -219,10 +227,11 @@ function Drawer() {
                     Client's Name
                   </span>
                   <input
+                    disabled={loading}
                     name="clientName"
                     type="text"
                     placeholder="Alex Grim"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold  mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold  mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -230,10 +239,11 @@ function Drawer() {
                     Client’s Email
                   </span>
                   <input
+                    disabled={loading}
                     name="clientEmail"
                     type="email"
                     placeholder="alexgrim@mail.com"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs mt-2  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs mt-2  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -241,10 +251,11 @@ function Drawer() {
                     Street Address
                   </span>
                   <input
+                    disabled={loading}
                     name="clientStreet"
                     type="text"
                     placeholder="84 Church Way"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2  tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2  tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
               </div>
@@ -254,10 +265,11 @@ function Drawer() {
                     City
                   </span>
                   <input
+                    disabled={loading}
                     name="clientCity"
                     type="text"
                     placeholder="Bradford"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2  text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2  text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -265,10 +277,11 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
+                    disabled={loading}
                     name="clientPostCode"
                     type="text"
                     placeholder="BD1 9PB"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div className="max-[550px]:mt-6">
@@ -277,10 +290,11 @@ function Drawer() {
                       Country
                     </span>
                     <input
+                      disabled={loading}
                       name="clientCountry"
                       type="text"
                       placeholder="United Kingdom"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                     />
                   </div>
                 </div>
@@ -291,10 +305,11 @@ function Drawer() {
                     Invoice Date
                   </span>
                   <input
+                    disabled={loading}
                     name="invoiceDate"
                     type="date"
                     placeholder="Please write"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full mt-2  max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full mt-2  max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -302,11 +317,12 @@ function Drawer() {
                     Payment Terms
                   </span>
                   <input
+                    disabled={loading}
                     title="number"
                     onChange={validateInputOnlyNumber}
                     name="paymentTerms"
                     placeholder="Net 30 Days"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
               </div>
@@ -315,10 +331,11 @@ function Drawer() {
                   Project Description
                 </span>
                 <input
+                  disabled={loading}
                   name="description"
                   type="text"
                   placeholder="Graphic Design"
-                  className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                  className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                 />
               </div>
             </div>
@@ -335,11 +352,12 @@ function Drawer() {
                 </p>
                 {rows.map((_, index) => (
                   <input
+                    disabled={loading}
                     key={index}
                     name={`itemName`}
                     type="text"
                     placeholder="Apple"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[214px] h-[48px] font-bold text-xs tracking-[-0.25px] max-[625px]:w-full"
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[214px] h-[48px] font-bold text-xs tracking-[-0.25px] max-[625px]:w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 ))}
               </div>
@@ -349,11 +367,12 @@ function Drawer() {
                   data-tip={"number"}
                   className="tooltip tooltip-bottom w-min grid gap-y-4"
                 >
-                  <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
+                  <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px] disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400">
                     Qty.
                   </p>
                   {rows.map((row, index) => (
                     <input
+                      disabled={loading}
                       key={index}
                       type="text"
                       name={`itemQty${index}`}
@@ -362,7 +381,7 @@ function Drawer() {
                       onChange={(e) => handleInputChange(e, index, "itemQty")}
                       maxLength={2}
                       placeholder="1"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[50px] h-[48px] font-bold text-xs tracking-[-0.25px]"
+                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[50px] h-[48px] font-bold text-xs tracking-[-0.25px] disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                     />
                   ))}
                 </div>
@@ -376,13 +395,14 @@ function Drawer() {
                   </p>
                   {rows.map((row, index) => (
                     <input
+                      disabled={loading}
                       key={index}
                       name={`itemPrice${index}`}
                       value={row.itemPrice}
                       onChange={(e) => handleInputChange(e, index, "itemPrice")}
                       type="text"
                       placeholder="422.13"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered max-w-[100px] w-auto h-[48px] font-bold text-xs tracking-[-0.25px]"
+                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered max-w-[100px] w-auto h-[48px] font-bold text-xs tracking-[-0.25px] disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                     />
                   ))}
                 </div>

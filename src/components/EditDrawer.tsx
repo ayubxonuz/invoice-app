@@ -59,15 +59,18 @@ function EditDrawer() {
     }
     try {
       setLoading(true)
+      toast.loading("Please wait, the invoice is being updated")
       dispatch(fetchUpdate(newInvoice)).then(() => {
         dispatch(setSingleData(newInvoice))
         setLoading(false)
         toast.success("Invoice updated successfully !")
+        toast.dismiss()
         dispatch(editToggle())
       })
     } catch (error: any) {
       toast.error(error.message)
       setLoading(false)
+      toast.dismiss()
     }
   }
 
@@ -75,7 +78,11 @@ function EditDrawer() {
     <div>
       {editToggleDrawer && (
         <div
-          onClick={() => dispatch(editToggle())}
+          onClick={() => {
+            if (!loading) {
+              dispatch(editToggle())
+            }
+          }}
           className="fixed bg-black bg-opacity-50 w-full top-0 left-0 bottom-0"
         ></div>
       )}
@@ -98,12 +105,13 @@ function EditDrawer() {
                 Street Address
               </span>
               <input
+                disabled={loading}
                 required
                 defaultValue={singleData?.senderAddress?.street}
                 name="senderStreet"
                 type="text"
                 placeholder="19 Union Terrace"
-                className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2 tracking-[-0.25px] input-bordered w-full max-w-full"
+                className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2 tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
               />
 
               <div className="grid grid-cols-3 gap-x-6 mt-6 max-[550px]:grid-cols-2">
@@ -112,12 +120,13 @@ function EditDrawer() {
                     City
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.senderAddress?.city}
                     name="senderCity"
                     type="text"
                     placeholder="London"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full"
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
                 <label className="form-control w-full max-w-full">
@@ -125,12 +134,13 @@ function EditDrawer() {
                     Post Code
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.senderAddress?.postCode}
                     name="senderPostCode"
                     type="text"
                     placeholder="E1 3EZ"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
                 <label className="form-control w-full max-[550px]:mt-6 max-w-full">
@@ -138,12 +148,13 @@ function EditDrawer() {
                     Country
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.senderAddress?.country}
                     name="senderCountry"
                     type="text"
                     placeholder="United Kingdom"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full"
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </label>
               </div>
@@ -157,12 +168,13 @@ function EditDrawer() {
                     Client's Name
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.clientName}
                     name="clientName"
                     type="text"
                     placeholder="Alex Grim"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold  mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold  mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -170,12 +182,13 @@ function EditDrawer() {
                     Client’s Email
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.clientEmail}
                     name="clientEmail"
                     type="email"
                     placeholder="alexgrim@mail.com"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs mt-2  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] font-bold text-xs mt-2  tracking-[-0.25px] input-bordered text-[#0C0E16] bg-white w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -183,12 +196,13 @@ function EditDrawer() {
                     Street Address
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.clientAddress?.street}
                     name="clientStreet"
                     type="text"
                     placeholder="84 Church Way"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2  tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs mt-2  tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
               </div>
@@ -198,12 +212,13 @@ function EditDrawer() {
                     City
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.clientAddress?.city}
                     name="clientCity"
                     type="text"
                     placeholder="Bradford"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2  text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2  text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -211,12 +226,13 @@ function EditDrawer() {
                     Post Code
                   </span>
                   <input
+                    disabled={loading}
                     required
                     defaultValue={singleData?.clientAddress?.postCode}
                     name="clientPostCode"
                     type="text"
                     placeholder="BD1 9PB"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div className="max-[550px]:mt-6">
@@ -225,12 +241,13 @@ function EditDrawer() {
                       Country
                     </span>
                     <input
+                      disabled={loading}
                       required
                       defaultValue={singleData?.clientAddress?.country}
                       name="clientCountry"
                       type="text"
                       placeholder="United Kingdom"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold mt-2 text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                     />
                   </div>
                 </div>
@@ -241,11 +258,12 @@ function EditDrawer() {
                     Invoice Date
                   </span>
                   <input
+                    disabled={loading}
                     required
                     name="invoiceDate"
                     type="date"
                     placeholder="Please write"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full mt-2  max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white font-bold text-xs tracking-[-0.25px] input-bordered w-full mt-2 max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
                 <div>
@@ -253,13 +271,14 @@ function EditDrawer() {
                     Payment Terms
                   </span>
                   <input
+                    disabled={loading}
                     required
                     title="number"
                     defaultValue={singleData?.paymentTerms}
                     onChange={validateInputOnlyNumber}
                     name="paymentTerms"
                     placeholder="Net 30 Days"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                   />
                 </div>
               </div>
@@ -268,12 +287,13 @@ function EditDrawer() {
                   Project Description
                 </span>
                 <input
+                  disabled={loading}
                   required
                   defaultValue={singleData?.description}
                   name="description"
                   type="text"
                   placeholder="Graphic Design"
-                  className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full "
+                  className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white mt-2 font-bold text-xs tracking-[-0.25px] input-bordered w-full max-w-full disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400"
                 />
               </div>
             </div>
@@ -290,13 +310,13 @@ function EditDrawer() {
                 </p>
                 {singleData?.items?.map((item) => (
                   <input
+                    disabled
                     required
                     key={nanoid()}
                     defaultValue={item.name}
                     name={`itemName`}
                     type="text"
                     placeholder="Apple"
-                    disabled
                     className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 w-[214px] h-[48px] font-bold text-xs tracking-[-0.25px] max-[625px]:w-full"
                   />
                 ))}
@@ -312,6 +332,7 @@ function EditDrawer() {
                   </p>
                   {singleData?.items?.map((item, index) => (
                     <input
+                      disabled
                       required
                       key={nanoid()}
                       type="text"
@@ -320,7 +341,6 @@ function EditDrawer() {
                       defaultValue={item.quantity}
                       maxLength={2}
                       placeholder="1"
-                      disabled
                       className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 w-[50px] h-[48px] font-bold text-xs tracking-[-0.25px]"
                     />
                   ))}
@@ -335,13 +355,13 @@ function EditDrawer() {
                   </p>
                   {singleData?.items?.map((item, index) => (
                     <input
+                      disabled
                       required
                       key={nanoid()}
                       name={`itemPrice${index}`}
                       defaultValue={item.price}
                       type="text"
                       placeholder="422.13"
-                      disabled
                       className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 max-w-[100px] w-auto h-[48px] font-bold text-xs tracking-[-0.25px]"
                     />
                   ))}
@@ -378,21 +398,32 @@ function EditDrawer() {
               >
                 + Add New Item
               </button>
-              <div className="flex justify-end gap-x-2">
-                <button
-                  onClick={() => dispatch(editToggle())}
-                  type="button"
-                  className="p-4 hover:bg-[#0C0E16] transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53]"
-                >
-                  Cancel
-                </button>
+              <div className="flex justify-between gap-x-2">
+                {loading ? (
+                  <button
+                    type="button"
+                    disabled
+                    className="p-4 cursor-not-allowed transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#F9FAFE]"
+                  >
+                    Cancel
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => dispatch(editToggle())}
+                    type="button"
+                    className="p-4 max-[422px]:p-3 max-[422px]:text-[11px]  tracking-[-0.25px] rounded-[25px] text-[#7E88C3] font-bold text-xs transition hover:bg-[#DFE3FA] bg-[#F9FAFE]"
+                  >
+                    Cancel
+                  </button>
+                )}
 
                 {loading ? (
                   <button
                     type="button"
-                    className="p-4 max-[422px]:p-3 max-[422px]:text-[11px] btn-disabled tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75 gap-x-2"
+                    disabled
+                    className="p-4 cursor-not-allowed max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75"
                   >
-                    Save Changes <span className="loading-xs loading"></span>
+                    Save Changes
                   </button>
                 ) : (
                   <button
