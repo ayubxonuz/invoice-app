@@ -74,7 +74,7 @@ function ItemListInput() {
               className="mt-[30px] pb-[18px]"
               width={30}
               src="/trash.svg"
-              alt=""
+              alt="Trash photo"
             />
             <img className="mt-[30px]" width={30} src="/trash.svg" alt="" />
           </div>

@@ -3,17 +3,22 @@ import {NavLink, useParams} from "react-router-dom"
 import StatusBtn from "../components/StatusBtn"
 import Modal from "../components/Modal"
 import {useEffect, useState} from "react"
-import {allInterface} from "../interface/interfaceData"
+import {RootState, allInterface} from "../interface/interfaceData"
 import {nanoid} from "@reduxjs/toolkit"
 import Loading from "../components/Loading"
 import {animateScroll} from "react-scroll"
 import {toast} from "sonner"
 import ModalBottom from "../components/ModalBottom"
+import {useAppDispatch} from "../redux/store"
+import {editToggle, setSingleData} from "../redux/invoiceSlice"
+import {useSelector} from "react-redux"
+import MarkButton from "../components/MarkButton"
 
 function InvoicesDetail() {
   const [invoice, setInvoice] = useState<allInterface | null>(null)
   const {id} = useParams()
-  console.log(invoice)
+  const dispatch = useAppDispatch()
+  const {singleData} = useSelector((store: RootState) => store.invoiceSlice)
 
   useEffect(() => {
     animateScroll.scrollToTop({
@@ -36,14 +41,15 @@ function InvoicesDetail() {
         toast.error(error.message)
       }
     }
+
     fetchData()
-  }, [id])
+  }, [id, singleData])
 
   return (
     <div className="h-screen">
       <NavLink
         to={"/"}
-        className="flex font-bold gap-1 mt-12 text-xs tracking-[-0.25px] items-center dark:text-[#FFFFFF] text-[#0C0E16]"
+        className="flex hover:text-[#7E88C3] transition font-bold gap-1 mt-12 text-xs tracking-[-0.25px] items-center dark:text-[#FFFFFF] text-[#0C0E16]"
       >
         <NavArrowLeft color="#7C5DFA" />
         Go Back
@@ -55,21 +61,26 @@ function InvoicesDetail() {
       )}
       {invoice && (
         <>
-          <div className="bg-[#FFFFFF] dark:bg-[#1E2139] rounded-lg mb-6 mt-8 flex justify-between h-[88px] px-8 max-[600px]:px-5">
-            <div className="flex w-full max-[600px]:justify-between items-center gap-x-4">
+          <div className="bg-[#FFFFFF] dark:bg-[#1E2139] rounded-lg mb-6 mt-8 flex justify-between h-[88px] px-8 max-[641px]:px-5">
+            <div className="flex w-full max-[641px]:justify-between items-center gap-x-4">
               <p className="text-[#858BB2] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                 Status
               </p>
               <StatusBtn status={invoice.status} />
             </div>
-            <div className="flex items-center gap-x-2 max-[600px]:hidden">
-              <button className="w-[73px] h-[48px] rounded-[25px] font-bold text-xs transition text-[#7E88C3] dark:bg-[#252945] dark:text-[#DFE3FA] bg-[#F9FAFE]">
+            <div className="flex items-center gap-x-2 max-[641px]:hidden">
+              <button
+                onClick={() => {
+                  dispatch(editToggle())
+                  dispatch(setSingleData(invoice))
+                }}
+                className="w-[73px] dark:hover:text-[#7E88C3] h-[48px] rounded-[25px] font-bold text-xs hover:bg-[#DFE3FA] transition text-[#7E88C3] dark:bg-[#252945] dark:text-[#DFE3FA] bg-[#F9FAFE]"
+              >
                 Edit
               </button>
               <Modal id={invoice.id} />
-              <button className="w-[131px] text-xs hover:bg-[#9277FF] transition h-[48px] text-[#FFFFFF] bg-[#7C5DFA] rounded-[25px] font-bold">
-                Mark as Paid
-              </button>
+
+              <MarkButton invoice={invoice} />
             </div>
           </div>
           <div className="bg-[#FFFFFF] dark:bg-[#1E2139] p-12 max-[688px]:px-6 rounded-lg">
@@ -146,7 +157,7 @@ function InvoicesDetail() {
                     Item Name
                   </p>
 
-                  {invoice.items.map((item) => (
+                  {invoice.items?.map((item) => (
                     <h4
                       key={nanoid()}
                       className="font-bold dark:text-[#FFFFFF] text-[#0C0E16] w-max text-xs tracking-[-0.25px]"
@@ -167,7 +178,7 @@ function InvoicesDetail() {
                     <p className="text-[#7E88C3] dark:text-[#DFE3FA] max-[795px]:hidden text-[11px] tracking-[-0.25px]">
                       QTY.
                     </p>
-                    {invoice.items.map((item) => (
+                    {invoice.items?.map((item) => (
                       <p
                         key={nanoid()}
                         className="font-bold dark:text-[#DFE3FA] text-[#7E88C3] text-xs tracking-[-0.25px]"
@@ -180,7 +191,7 @@ function InvoicesDetail() {
                     <p className="text-[#7E88C3] dark:text-[#DFE3FA] max-[795px]:hidden text-[11px] tracking-[-0.25px]">
                       Price
                     </p>
-                    {invoice.items.map((item) => (
+                    {invoice.items?.map((item) => (
                       <p
                         key={nanoid()}
                         className="font-bold max-[795px]:hidden ruby text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]"
@@ -193,7 +204,7 @@ function InvoicesDetail() {
                     <p className="text-[#7E88C3] max-[795px]:hidden text-[11px] dark:text-[#DFE3FA] tracking-[-0.25px]">
                       Total
                     </p>
-                    {invoice.items.map((item) => (
+                    {invoice.items?.map((item) => (
                       <p
                         key={nanoid()}
                         className="font-bold dark:text-[#FFFFFF] ruby text-[#0C0E16] text-xs tracking-[-0.25px]"
@@ -210,20 +221,18 @@ function InvoicesDetail() {
                 Amount Due
               </p>
               <h2 className="text-[24px] max-[795px]:text-[20px] max-[795px]:tracking-[-0.42px] text-white tracking-[-0.5px] font-bold">
-                £ 556.00
+                £ {invoice.total}
               </h2>
             </div>
           </div>
-          <div className="w-full hidden mb-[22px] max-[600px]:block mt-10">
+          <div className="w-full hidden mb-[22px] max-[641px]:block mt-10">
             <div className="flex items-center justify-between gap-x-2 ">
-              <button className="px-5 py-4 text-[11px] rounded-[25px] font-bold text-xs transition dark:bg-[#252945] dark:text-[#DFE3FA] bg-[#f0f0f0]">
+              <button className="px-5 py-4 text-[11px] rounded-[25px] font-bold text-xs transition dark:hover:text-[#7E88C3] dark:bg-[#252945] hover:bg-[#DFE3FA] dark:text-[#DFE3FA] bg-[#f0f0f0]">
                 Edit
               </button>
               <div className="flex items-center gap-x-2">
                 <ModalBottom id={invoice.id} />
-                <button className="px-4 py-4 text-[11px] hover:bg-[#9277FF] transition text-[#FFFFFF] bg-[#7C5DFA] rounded-[25px] font-bold">
-                  Mark as Paid
-                </button>
+                <MarkButton invoice={invoice} />
               </div>
             </div>
           </div>

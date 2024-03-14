@@ -52,7 +52,7 @@ function ModalBottom({id}: modalProps) {
           </p>
           <div className="flex justify-end gap-x-3 mt-4">
             <form method="dialog">
-              <button className="h-[48px] p-6 flex items-center rounded-[25px] text-[#7E88C3] dark:text-[#DFE3FA] bg-[#F9FAFE] dark:bg-[#252945] font-bold text-xs transition">
+              <button className="h-[48px] hover:text-[#7E88C3] hover:bg-[#DFE3FA] p-6 flex items-center rounded-[25px] text-[#7E88C3] dark:text-[#DFE3FA] bg-[#F9FAFE] dark:bg-[#252945] font-bold text-xs transition">
                 Cancel
               </button>
             </form>

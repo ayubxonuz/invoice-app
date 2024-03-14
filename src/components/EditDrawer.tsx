@@ -1,32 +1,18 @@
 import {useSelector} from "react-redux"
-import {fetchPost, toggleFunc} from "../redux/invoiceSlice"
+import {editToggle, fetchUpdate, setSingleData} from "../redux/invoiceSlice"
 import {FormEvent, useState} from "react"
-import {
-  createdAt,
-  invoiceId,
-  paymentDueFunc,
-  validateInputOnlyNumber,
-} from "../utils"
+import {paymentDueFunc, validateInputOnlyNumber} from "../utils"
 import {RootState, allInterface} from "../interface/interfaceData"
-
+import {nanoid} from "@reduxjs/toolkit"
 import {useAppDispatch} from "../redux/store"
-import {useNavigate} from "react-router-dom"
-import {animateScroll} from "react-scroll"
 import {toast} from "sonner"
 
-interface Row {
-  [key: string]: string
-  itemName: string
-  itemQty: string
-  itemPrice: string
-}
+function EditDrawer() {
+  const {singleData} = useSelector((store: RootState) => store.invoiceSlice)
 
-function Drawer() {
-  const [rows, setRows] = useState<Row[]>([
-    {itemName: "", itemQty: "", itemPrice: ""},
-  ])
-  const navigate = useNavigate()
-  const {toggleSideBar} = useSelector((state: RootState) => state.invoiceSlice)
+  const {editToggleDrawer} = useSelector(
+    (state: RootState) => state.invoiceSlice
+  )
 
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
@@ -48,35 +34,15 @@ function Drawer() {
       paymentTerms = formData.get("paymentTerms") as string,
       description = formData.get("description") as string
 
-    let total = 0
-    const items = Array.from(formData.getAll("itemName")).map((name, index) => {
-      const itemName = name as string
-      const itemQty = parseInt(formData.getAll(`itemQty${index}`)[0] as string)
-      const itemPrice = parseFloat(
-        formData.getAll(`itemPrice${index}`)[0] as string
-      )
-      const itemTotal = itemQty * itemPrice
-      return {
-        name: itemName,
-        quantity: itemQty,
-        price: itemPrice,
-        total: itemTotal,
-      }
-    }) as allInterface["items"]
-
-    items?.forEach((item) => {
-      total += item.total
-    })
-
     const newInvoice: allInterface = {
-      id: invoiceId(),
-      createdAt: createdAt(),
+      id: singleData.id,
+      createdAt: singleData.createdAt,
       paymentDue: paymentDueFunc(invoiceDate),
       description,
       paymentTerms,
       clientName,
       clientEmail,
-      status: "pending",
+      status: singleData.status,
       senderAddress: {
         street: senderStreet,
         city: senderCity,
@@ -89,71 +55,39 @@ function Drawer() {
         postCode: clientPostCode,
         country: clientCountry,
       },
-      items,
-      total,
     }
     try {
       setLoading(true)
-      dispatch(fetchPost(newInvoice)).then(() => {
+      dispatch(fetchUpdate(newInvoice)).then(() => {
+        dispatch(setSingleData(newInvoice))
         setLoading(false)
-        navigate(`/invoice/${newInvoice.id}`)
-        toast.success("Invoice created successfully")
-        dispatch(toggleFunc())
+        toast.success("Invoice updated successfully")
+        dispatch(editToggle())
       })
     } catch (error: any) {
       toast.error(error.message)
       setLoading(false)
     }
   }
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number,
-    type: string
-  ) => {
-    const {value} = e.target
-
-    if (/^\d*$/.test(value) || value === "") {
-      setRows((prevRows) =>
-        prevRows.map((row, rowIndex) => {
-          if (rowIndex === index) {
-            return {...row, [type]: value}
-          }
-          return row
-        })
-      )
-    }
-  }
-
-  const handleButtonDelete = (index: number) => {
-    if (index > 0) {
-      setRows((prevRows) =>
-        prevRows.filter((_, rowIndex) => rowIndex !== index)
-      )
-    }
-  }
-
-  const handleButtonAdd = () => {
-    const newRow: Row = {itemName: "", itemQty: "", itemPrice: ""}
-    setRows((prevRows) => [...prevRows, newRow])
-  }
 
   return (
     <div>
-      {toggleSideBar && (
+      {editToggleDrawer && (
         <div
-          onClick={() => dispatch(toggleFunc())}
+          onClick={() => dispatch(editToggle())}
           className="fixed bg-black bg-opacity-50 w-full top-0 left-0 bottom-0"
         ></div>
       )}
       <div
         className={`fixed pl-[100px] max-[1040px]:pl-0 max-[1040px]:mt-[80px] overflow-scroll rounded-br-[20px] rounded-tr-[20px] bg-[#FFFFFF] bottom-0 left-0 dark:bg-[#141625] top-0 max-w-[729px] max-[1040px]:max-w-[619px] w-full z-20 -translate-x-full ${
-          toggleSideBar && "translate-x-0"
+          editToggleDrawer && "translate-x-0"
         } transition duration-500`}
       >
         <form onSubmit={handleSubmit}>
           <div className="p-14 max-[550px]:p-5">
             <h3 className="text-2xl dark:text-[#FFFFFF] text-[#0C0E16] font-bold tracking-[-0.5px]">
-              New Invoice
+              Edit <span className="text-[#888EB0]">#</span>
+              {singleData?.id}
             </h3>
             <div className="mt-12">
               <p className="text-[#7C5DFA] pb-6 font-bold text-xs tracking-[-0.25px]">
@@ -164,6 +98,7 @@ function Drawer() {
               </span>
               <input
                 required
+                defaultValue={singleData?.senderAddress?.street}
                 name="senderStreet"
                 type="text"
                 placeholder="19 Union Terrace"
@@ -177,6 +112,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.senderAddress?.city}
                     name="senderCity"
                     type="text"
                     placeholder="London"
@@ -189,6 +125,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.senderAddress?.postCode}
                     name="senderPostCode"
                     type="text"
                     placeholder="E1 3EZ"
@@ -201,6 +138,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.senderAddress?.country}
                     name="senderCountry"
                     type="text"
                     placeholder="United Kingdom"
@@ -219,6 +157,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.clientName}
                     name="clientName"
                     type="text"
                     placeholder="Alex Grim"
@@ -231,6 +170,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.clientEmail}
                     name="clientEmail"
                     type="email"
                     placeholder="alexgrim@mail.com"
@@ -243,6 +183,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.clientAddress?.street}
                     name="clientStreet"
                     type="text"
                     placeholder="84 Church Way"
@@ -257,6 +198,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.clientAddress?.city}
                     name="clientCity"
                     type="text"
                     placeholder="Bradford"
@@ -269,6 +211,7 @@ function Drawer() {
                   </span>
                   <input
                     required
+                    defaultValue={singleData?.clientAddress?.postCode}
                     name="clientPostCode"
                     type="text"
                     placeholder="BD1 9PB"
@@ -282,6 +225,7 @@ function Drawer() {
                     </span>
                     <input
                       required
+                      defaultValue={singleData?.clientAddress?.country}
                       name="clientCountry"
                       type="text"
                       placeholder="United Kingdom"
@@ -310,6 +254,7 @@ function Drawer() {
                   <input
                     required
                     title="number"
+                    defaultValue={singleData?.paymentTerms}
                     onChange={validateInputOnlyNumber}
                     name="paymentTerms"
                     placeholder="Net 30 Days"
@@ -323,6 +268,7 @@ function Drawer() {
                 </span>
                 <input
                   required
+                  defaultValue={singleData?.description}
                   name="description"
                   type="text"
                   placeholder="Graphic Design"
@@ -341,14 +287,16 @@ function Drawer() {
                 <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-left text-xs tracking-[-0.25px]">
                   Item Name
                 </p>
-                {rows.map((_, index) => (
+                {singleData?.items?.map((item) => (
                   <input
                     required
-                    key={index}
+                    key={nanoid()}
+                    defaultValue={item.name}
                     name={`itemName`}
                     type="text"
                     placeholder="Apple"
-                    className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[214px] h-[48px] font-bold text-xs tracking-[-0.25px] max-[625px]:w-full"
+                    disabled
+                    className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 w-[214px] h-[48px] font-bold text-xs tracking-[-0.25px] max-[625px]:w-full"
                   />
                 ))}
               </div>
@@ -361,18 +309,18 @@ function Drawer() {
                   <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                     Qty.
                   </p>
-                  {rows.map((row, index) => (
+                  {singleData?.items?.map((item, index) => (
                     <input
                       required
-                      key={index}
+                      key={nanoid()}
                       type="text"
                       name={`itemQty${index}`}
                       pattern="[0-9]*"
-                      value={row.itemQty}
-                      onChange={(e) => handleInputChange(e, index, "itemQty")}
+                      defaultValue={item.quantity}
                       maxLength={2}
                       placeholder="1"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered w-[50px] h-[48px] font-bold text-xs tracking-[-0.25px]"
+                      disabled
+                      className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 w-[50px] h-[48px] font-bold text-xs tracking-[-0.25px]"
                     />
                   ))}
                 </div>
@@ -384,16 +332,16 @@ function Drawer() {
                   <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                     Price
                   </p>
-                  {rows.map((row, index) => (
+                  {singleData?.items?.map((item, index) => (
                     <input
                       required
-                      key={index}
+                      key={nanoid()}
                       name={`itemPrice${index}`}
-                      value={row.itemPrice}
-                      onChange={(e) => handleInputChange(e, index, "itemPrice")}
+                      defaultValue={item.price}
                       type="text"
                       placeholder="422.13"
-                      className="input dark:bg-[#1E2139] dark:text-[#FFFFFF] text-[#0C0E16] bg-white input-bordered max-w-[100px] w-auto h-[48px] font-bold text-xs tracking-[-0.25px]"
+                      disabled
+                      className="input disabled:bg-white disabled:input-bordered disabled:text-gray-400 dark:disabled:bg-[#1E2139] dark:disabled:text-gray-400 max-w-[100px] w-auto h-[48px] font-bold text-xs tracking-[-0.25px]"
                     />
                   ))}
                 </div>
@@ -401,29 +349,19 @@ function Drawer() {
                   <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                     Total
                   </p>
-                  {rows.map((row, index) => {
-                    const itemQty = parseInt(row.itemQty) || 0
-                    const itemPrice = parseFloat(row.itemPrice) || 0
+                  {singleData?.items?.map((item) => {
+                    const itemQty = item?.quantity
+                    const itemPrice = item?.price
                     const total = itemQty * itemPrice
 
                     return (
                       <div
-                        key={index}
-                        className="flex h-[48px] justify-between items-center"
+                        key={nanoid()}
+                        className="flex h-[48px] items-center"
                       >
                         <p className="text-[#888EB0] dark:text-[#DFE3FA] font-bold tracking-[-0.25px] text-xs">
                           £{total.toFixed(2)}
                         </p>
-                        <button
-                          type="button"
-                          onClick={() => handleButtonDelete(index)}
-                        >
-                          <img
-                            className="ml-12 mb-1"
-                            src="/trash.svg"
-                            alt="Trash photo"
-                          />
-                        </button>
                       </div>
                     )
                   })}
@@ -431,52 +369,38 @@ function Drawer() {
               </div>
             </div>
 
-            <div className="">
+            <div>
               <button
-                onClick={handleButtonAdd}
+                disabled
                 type="button"
-                className="bg-[#F9FAFE] w-full h-12 rounded-3xl text-[#7E88C3] dark:hover:bg-[#3a3d55] dark:bg-[#252945] dark:text-[#DFE3FA] font-bold text-xs tracking-[-0.25px] mb-[47px] hover:bg-[#eef0ff] transition"
+                className="bg-[#F9FAFE] cursor-not-allowed w-full h-12 rounded-3xl text-[#7E88C3] dark:bg-[#252945] dark:text-[#DFE3FA] font-bold text-xs tracking-[-0.25px] mb-[47px] transition"
               >
                 + Add New Item
               </button>
-              <div className="flex justify-between">
+              <div className="flex justify-end gap-x-2">
                 <button
+                  onClick={() => dispatch(editToggle())}
                   type="button"
-                  onClick={() => {
-                    animateScroll.scrollToTop({
-                      duration: 500,
-                      smooth: true,
-                    })
-                    dispatch(toggleFunc())
-                  }}
-                  className="p-4 max-[422px]:p-3 max-[422px]:text-[11px]  tracking-[-0.25px] rounded-[25px] text-[#7E88C3] font-bold text-xs  transition hover:bg-[#DFE3FA] bg-[#F9FAFE]"
+                  className="p-4 hover:bg-[#0C0E16] transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53]"
                 >
-                  Discard
+                  Cancel
                 </button>
-                <div className="flex gap-x-2">
+
+                {loading ? (
                   <button
                     type="button"
-                    className="p-4 hover:bg-[#0C0E16] transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53]"
+                    className="p-4 max-[422px]:p-3 max-[422px]:text-[11px] btn-disabled tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75 gap-x-2"
                   >
-                    Save as Draft
+                    Save Changes <span className="loading-xs loading"></span>
                   </button>
-
-                  {loading ? (
-                    <button
-                      type="button"
-                      className="p-4 max-[422px]:p-3 max-[422px]:text-[11px] btn-disabled tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75 gap-x-2"
-                    >
-                      Save & Send <span className="loading-xs loading"></span>
-                    </button>
-                  ) : (
-                    <button
-                      type="submit"
-                      className="p-4 hover:bg-[#9277FF] max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-white font-bold text-xs  transition bg-[#7C5DFA]"
-                    >
-                      Save & Send
-                    </button>
-                  )}
-                </div>
+                ) : (
+                  <button
+                    type="submit"
+                    className="p-4 hover:bg-[#9277FF] max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-white font-bold text-xs  transition bg-[#7C5DFA]"
+                  >
+                    Save Changes
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -486,4 +410,4 @@ function Drawer() {
   )
 }
 
-export default Drawer
+export default EditDrawer

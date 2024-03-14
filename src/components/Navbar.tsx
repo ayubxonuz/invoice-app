@@ -7,6 +7,7 @@ import {RootState} from "../interface/interfaceData"
 
 function Navbar() {
   const dispatch = useAppDispatch()
+
   const {allData, toggleSideBar} = useSelector(
     (store: RootState) => store.invoiceSlice
   )
@@ -24,7 +25,7 @@ function Navbar() {
           Invoices
         </NavLink>
         <p className="text-xs text-[#888EB0] dark:text-[#DFE3FA] max-[570px]:hidden tracking-[-0.25px]">
-          There are {allData?.length} total invoices
+          There are {allData?.length ? allData.length : 0} total invoices
         </p>
         <p className="text-xs text-[#888EB0] hidden max-[570px]:block tracking-[-0.25px]">
           {allData?.length} invoices
@@ -49,29 +50,37 @@ function Navbar() {
             className="dropdown-content  z-[1] menu p-2 shadow text-black bg-white dark:bg-[#252945] dark:text-[#FFFFFF] rounded-box w-56"
           >
             <label className="label cursor-pointer gap-x-3 justify-start">
-              <input type="checkbox" className="checkbox checkbox-info" />
+              <input
+                defaultChecked
+                type="checkbox"
+                className="checkbox checkbox-info"
+              />
               <span className="text-[12px]">Draft</span>
             </label>
             <label className="label cursor-pointer gap-x-3 justify-start">
-              <input type="checkbox" className="checkbox checkbox-info" />
+              <input
+                defaultChecked
+                type="checkbox"
+                className="checkbox checkbox-info"
+              />
               <span className="text-[12px]">Pending</span>
             </label>
             <label className="label cursor-pointer gap-x-3 justify-start">
-              <input type="checkbox" className="checkbox checkbox-info" />
+              <input
+                defaultChecked
+                type="checkbox"
+                className="checkbox checkbox-info"
+              />
               <span className="text-[12px]">Paid</span>
-            </label>
-            <label className="label cursor-pointer gap-x-3 justify-start">
-              <input type="checkbox" className="checkbox checkbox-info" />
-              <span className="text-[12px]">All status</span>
             </label>
           </ul>
         </div>
         <button
           onClick={() => dispatch(toggleFunc())}
-          className="bg-[#7C5DFA] max-[570px]:hidden max-w-[150px] w-full text-base-200 text-xs font-bold tracking-[-0.25px] h-[48px] px-2 rounded-3xl items-center"
+          className="bg-[#7C5DFA] hover:bg-[#967cff] transition max-[570px]:hidden max-w-[150px] w-full text-base-200 text-xs font-bold tracking-[-0.25px] h-[48px] px-2 rounded-3xl items-center"
         >
           <h1 className="flex text-white items-center gap-x-3">
-            <img src="/add.svg" alt="" />
+            <img src="/add.svg" alt="Add photo" />
             New Invoice
           </h1>
         </button>
@@ -80,7 +89,7 @@ function Navbar() {
           className="bg-[#7C5DFA] hidden max-[570px]:block text-base-100 text-xs font-bold tracking-[-0.25px] h-[48px] pr-2 rounded-3xl items-center"
         >
           <h1 className="flex text-white items-center gap-x-3 px-[6px]">
-            <img src="/add.svg" alt="" />
+            <img src="/add.svg" alt="Add photo" />
             New
           </h1>
         </button>

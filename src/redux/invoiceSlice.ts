@@ -1,20 +1,23 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit"
-import {allInterface} from "../interface/interfaceData"
 import {toast} from "sonner"
+import {allInterface} from "../interface/interfaceData"
 
 const BASE_URL: string = "https://invoicesdata.onrender.com/data"
 
-export const fetchData = createAsyncThunk("invoices/fetchData", async () => {
-  try {
-    const response = await fetch(BASE_URL)
-    if (!response.ok) {
-      throw new Error("Failed to fetch data")
+export const fetchData = createAsyncThunk(
+  "invoices/fetchData",
+  async (API: string) => {
+    try {
+      const response = await fetch(API ? API : BASE_URL)
+      if (!response.ok) {
+        throw new Error("Failed to fetch data")
+      }
+      return await response.json()
+    } catch (error: any) {
+      toast.error(error.message)
     }
-    return await response.json()
-  } catch (error: any) {
-    toast.error(error.message)
   }
-})
+)
 
 export const fetchPost = createAsyncThunk(
   "invoices/fetchPost",
@@ -52,20 +55,40 @@ export const fetchDelete = createAsyncThunk(
     }
   }
 )
-
-const invoicesStorage = localStorage.getItem("invoices")
-const initialState = () => {
-  const storedData = invoicesStorage ? JSON.parse(invoicesStorage) : null
-  return (
-    storedData || {
-      allData: null,
-      loading: false,
-      error: null,
-      toggleSideBar: false,
-      toggleTheme: false,
-      currentStatus: [],
+export const fetchUpdate = createAsyncThunk(
+  "invoices/fetchUpdate",
+  async (invoice: allInterface) => {
+    try {
+      const req = await fetch(
+        `https://invoicesdata.onrender.com/data/${invoice.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(invoice),
+        }
+      )
+      if (!req.ok) {
+        throw new Error("Failed invoice update")
+      }
+    } catch (error: any) {
+      toast.error(error)
     }
-  )
+  }
+)
+
+const initialState = () => {
+  return {
+    allData: null,
+    loading: false,
+    error: null,
+    toggleSideBar: false,
+    toggleTheme: false,
+    currentStatus: [],
+    editToggleDrawer: false,
+    singleData: {},
+  }
 }
 
 const invoiceSlice = createSlice({
@@ -74,7 +97,12 @@ const invoiceSlice = createSlice({
   reducers: {
     toggleFunc: (state) => {
       state.toggleSideBar = !state.toggleSideBar
-      localStorage.setItem("invoices", JSON.stringify(state))
+    },
+    editToggle: (state) => {
+      state.editToggleDrawer = !state.editToggleDrawer
+    },
+    setSingleData: (state, {payload}) => {
+      state.singleData = payload
     },
   },
   extraReducers: (builder) => {
@@ -88,7 +116,7 @@ const invoiceSlice = createSlice({
         state.error = null
         state.allData = action.payload
       })
-      .addCase(fetchData.rejected, (state, action) => {
+      .addCase(fetchData.rejected, (state, action: any) => {
         state.error = action.payload
         state.loading = false
         toast.error(state.error)
@@ -96,6 +124,6 @@ const invoiceSlice = createSlice({
   },
 })
 
-export const {toggleFunc} = invoiceSlice.actions
+export const {toggleFunc, editToggle, setSingleData} = invoiceSlice.actions
 
 export default invoiceSlice.reducer

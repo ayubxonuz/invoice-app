@@ -23,10 +23,11 @@ function SideBar() {
       </div>
       <div className="grid max-[1040px]:mx-8 max-[1040px]:gap-x-8 max-[1040px]:flex justify-items-center content-end">
         <img
+          title="Theme"
           onClick={toggleMode}
           className="mb-8 max-[1040px]:w-5 cursor-pointer max-[1040px]:m-0"
           src="/moon.svg"
-          alt=""
+          alt="Theme"
         />
         <p className="border w-full max-[1040px]:h-full max-[1040px]:w-[2px] border-[#494E6E]"></p>
         <img
@@ -34,7 +35,7 @@ function SideBar() {
           width={50}
           height={50}
           src="/user.svg"
-          alt=""
+          alt="User logo"
         />
       </div>
     </div>

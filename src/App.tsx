@@ -9,7 +9,7 @@ import {useAppDispatch} from "./redux/store"
 function App() {
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(fetchData())
+    dispatch(fetchData('https://invoicesdata.onrender.com/data'))
   }, [dispatch])
 
   const routest = createBrowserRouter([

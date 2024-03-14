@@ -75,3 +75,12 @@ export function paymentDueFunc(inputDate: string) {
   const outputDate = `Due ${day} ${monthStr} ${year}`
   return outputDate
 }
+
+export function validateInputOnlyNumber(event: React.ChangeEvent<HTMLInputElement>) {
+  const inputValue = event.target.value
+  const onlyNumbers = /^[0-9]*$/
+
+  if (!onlyNumbers.test(inputValue)) {
+    event.target.value = inputValue.replace(/\D/g, "") // Faqat raqamlarni qabul qilish
+  }
+}

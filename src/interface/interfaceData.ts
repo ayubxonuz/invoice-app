@@ -19,7 +19,7 @@ export interface allInterface {
     postCode: string
     street: string
   }
-  items: [
+  items?: [
     {
       name: string
       price: number
@@ -27,7 +27,7 @@ export interface allInterface {
       total: number
     }
   ]
-  total: number | string
+  total?: number | string
 }
 
 export interface RootState {
@@ -38,5 +38,7 @@ export interface RootState {
     error: any
     toggleSideBar: boolean
     toggleTheme: boolean
+    editToggleDrawer: boolean
+    singleData: allInterface
   }
 }

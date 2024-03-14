@@ -6,16 +6,17 @@ import {RootState, allInterface} from "../interface/interfaceData"
 import {nanoid} from "@reduxjs/toolkit"
 import Loading from "./Loading"
 import {useAppDispatch} from "../redux/store"
+import Nothing from "./Nothing"
 
 function InvoicesList() {
-  const {allData, loading} = useSelector(
+  const {allData, loading, singleData} = useSelector(
     (store: RootState) => store.invoiceSlice
   )
 
   const dispatch = useAppDispatch()
   useEffect(() => {
-    dispatch(fetchData())
-  }, [dispatch])
+    dispatch(fetchData("https://invoicesdata.onrender.com/data"))
+  }, [dispatch, singleData])
 
   return (
     <>
@@ -29,6 +30,7 @@ function InvoicesList() {
           allData.map((data: allInterface) => {
             return <Invoice key={nanoid()} data={data} />
           })}
+        {allData?.length == 0 && <Nothing />}
       </div>
     </>
   )
