@@ -11,8 +11,8 @@ import {RootState, allInterface} from "../interface/interfaceData"
 
 import {useAppDispatch} from "../redux/store"
 import {useNavigate} from "react-router-dom"
-import {animateScroll} from "react-scroll"
 import {toast} from "sonner"
+import DiscardButton from "./button/DiscardButton"
 
 interface Row {
   [key: string]: string
@@ -25,6 +25,7 @@ function Drawer() {
   const [rows, setRows] = useState<Row[]>([
     {itemName: "", itemQty: "", itemPrice: ""},
   ])
+  const [draft, setDraft] = useState(false)
   const navigate = useNavigate()
   const {toggleSideBar} = useSelector((state: RootState) => state.invoiceSlice)
 
@@ -76,7 +77,7 @@ function Drawer() {
       paymentTerms,
       clientName,
       clientEmail,
-      status: "pending",
+      status: draft ? "draft" : "pending",
       senderAddress: {
         street: senderStreet,
         city: senderCity,
@@ -94,17 +95,21 @@ function Drawer() {
     }
     try {
       setLoading(true)
+      toast.loading("Please wait, the invoice is being generated !")
       dispatch(fetchPost(newInvoice)).then(() => {
-        setLoading(false)
         navigate(`/invoice/${newInvoice.id}`)
-        toast.success("Invoice created successfully")
+        toast.success("Invoice created successfully !")
         dispatch(toggleFunc())
+        setLoading(false)
+        toast.dismiss()
       })
     } catch (error: any) {
       toast.error(error.message)
       setLoading(false)
+      toast.dismiss()
     }
   }
+
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number,
@@ -151,7 +156,7 @@ function Drawer() {
         } transition duration-500`}
       >
         <form onSubmit={handleSubmit}>
-          <div className="p-14 max-[550px]:p-5">
+          <div className="px-14 pt-14 pb-8 max-[550px]:p-5">
             <h3 className="text-2xl dark:text-[#FFFFFF] text-[#0C0E16] font-bold tracking-[-0.5px]">
               New Invoice
             </h3>
@@ -163,7 +168,6 @@ function Drawer() {
                 Street Address
               </span>
               <input
-                required
                 name="senderStreet"
                 type="text"
                 placeholder="19 Union Terrace"
@@ -176,7 +180,6 @@ function Drawer() {
                     City
                   </span>
                   <input
-                    required
                     name="senderCity"
                     type="text"
                     placeholder="London"
@@ -188,7 +191,6 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
-                    required
                     name="senderPostCode"
                     type="text"
                     placeholder="E1 3EZ"
@@ -200,7 +202,6 @@ function Drawer() {
                     Country
                   </span>
                   <input
-                    required
                     name="senderCountry"
                     type="text"
                     placeholder="United Kingdom"
@@ -218,7 +219,6 @@ function Drawer() {
                     Client's Name
                   </span>
                   <input
-                    required
                     name="clientName"
                     type="text"
                     placeholder="Alex Grim"
@@ -230,7 +230,6 @@ function Drawer() {
                     Client’s Email
                   </span>
                   <input
-                    required
                     name="clientEmail"
                     type="email"
                     placeholder="alexgrim@mail.com"
@@ -242,7 +241,6 @@ function Drawer() {
                     Street Address
                   </span>
                   <input
-                    required
                     name="clientStreet"
                     type="text"
                     placeholder="84 Church Way"
@@ -256,7 +254,6 @@ function Drawer() {
                     City
                   </span>
                   <input
-                    required
                     name="clientCity"
                     type="text"
                     placeholder="Bradford"
@@ -268,7 +265,6 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
-                    required
                     name="clientPostCode"
                     type="text"
                     placeholder="BD1 9PB"
@@ -281,7 +277,6 @@ function Drawer() {
                       Country
                     </span>
                     <input
-                      required
                       name="clientCountry"
                       type="text"
                       placeholder="United Kingdom"
@@ -296,7 +291,6 @@ function Drawer() {
                     Invoice Date
                   </span>
                   <input
-                    required
                     name="invoiceDate"
                     type="date"
                     placeholder="Please write"
@@ -308,7 +302,6 @@ function Drawer() {
                     Payment Terms
                   </span>
                   <input
-                    required
                     title="number"
                     onChange={validateInputOnlyNumber}
                     name="paymentTerms"
@@ -322,7 +315,6 @@ function Drawer() {
                   Project Description
                 </span>
                 <input
-                  required
                   name="description"
                   type="text"
                   placeholder="Graphic Design"
@@ -343,7 +335,6 @@ function Drawer() {
                 </p>
                 {rows.map((_, index) => (
                   <input
-                    required
                     key={index}
                     name={`itemName`}
                     type="text"
@@ -363,7 +354,6 @@ function Drawer() {
                   </p>
                   {rows.map((row, index) => (
                     <input
-                      required
                       key={index}
                       type="text"
                       name={`itemQty${index}`}
@@ -386,7 +376,6 @@ function Drawer() {
                   </p>
                   {rows.map((row, index) => (
                     <input
-                      required
                       key={index}
                       name={`itemPrice${index}`}
                       value={row.itemPrice}
@@ -431,46 +420,59 @@ function Drawer() {
               </div>
             </div>
 
-            <div className="">
-              <button
-                onClick={handleButtonAdd}
-                type="button"
-                className="bg-[#F9FAFE] w-full h-12 rounded-3xl text-[#7E88C3] dark:hover:bg-[#3a3d55] dark:bg-[#252945] dark:text-[#DFE3FA] font-bold text-xs tracking-[-0.25px] mb-[47px] hover:bg-[#eef0ff] transition"
-              >
-                + Add New Item
-              </button>
-              <div className="flex justify-between">
+            <div>
+              {loading ? (
                 <button
                   type="button"
-                  onClick={() => {
-                    animateScroll.scrollToTop({
-                      duration: 500,
-                      smooth: true,
-                    })
-                    dispatch(toggleFunc())
-                  }}
-                  className="p-4 max-[422px]:p-3 max-[422px]:text-[11px]  tracking-[-0.25px] rounded-[25px] text-[#7E88C3] font-bold text-xs  transition hover:bg-[#DFE3FA] bg-[#F9FAFE]"
+                  disabled
+                  className="bg-[#F9FAFE] w-full h-12 rounded-3xl text-[#7E88C3] cursor-not-allowed dark:bg-[#252945] dark:text-[#DFE3FA] font-bold text-xs tracking-[-0.25px] mb-[47px] opacity-75 transition"
                 >
-                  Discard
+                  + Add New Item
                 </button>
+              ) : (
+                <button
+                  onClick={handleButtonAdd}
+                  type="button"
+                  className="bg-[#F9FAFE] w-full h-12 rounded-3xl text-[#7E88C3] dark:hover:bg-[#3a3d55] dark:bg-[#252945] dark:text-[#DFE3FA] font-bold text-xs tracking-[-0.25px] mb-[47px] hover:bg-[#eef0ff] transition"
+                >
+                  + Add New Item
+                </button>
+              )}
+              <div className="flex justify-between">
+                <DiscardButton loading={loading} />
                 <div className="flex gap-x-2">
-                  <button
-                    type="button"
-                    className="p-4 hover:bg-[#0C0E16] transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53]"
-                  >
-                    Save as Draft
-                  </button>
+                  {loading ? (
+                    <button
+                      disabled
+                      className="p-4 opacity-75 cursor-not-allowed transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53] flex gap-x-2"
+                    >
+                      Save as Draft
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setDraft(true)
+                      }}
+                      className="p-4 hover:bg-[#0C0E16] transition max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-[#888EB0] dark:text-[#DFE3FA] font-bold text-xs bg-[#373B53]"
+                    >
+                      Save as Draft
+                    </button>
+                  )}
 
                   {loading ? (
                     <button
-                      type="button"
-                      className="p-4 max-[422px]:p-3 max-[422px]:text-[11px] btn-disabled tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75 gap-x-2"
+                      type="submit"
+                      disabled
+                      className="p-4 max-[422px]:p-3 max-[422px]:text-[11px] cursor-not-allowed tracking-[-0.25px] rounded-[25px] text-white font-bold items-center flex text-xs transition bg-[#7C5DFA] opacity-75 gap-x-2"
                     >
-                      Save & Send <span className="loading-xs loading"></span>
+                      Save & Send
                     </button>
                   ) : (
                     <button
                       type="submit"
+                      onClick={() => {
+                        setDraft(false)
+                      }}
                       className="p-4 hover:bg-[#9277FF] max-[422px]:p-3 max-[422px]:text-[11px] tracking-[-0.25px] rounded-[25px] text-white font-bold text-xs  transition bg-[#7C5DFA]"
                     >
                       Save & Send

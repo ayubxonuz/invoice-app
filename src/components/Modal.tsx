@@ -18,7 +18,7 @@ function Modal({id}: modalProps) {
     dispatch(fetchDelete(id))
       .then(() => {
         navigate("/")
-        toast.success("Invoice deleted successfully")
+        toast.success("Invoice deleted successfully !")
         setLoading(false)
       })
       .catch((error: any) => {
@@ -47,8 +47,8 @@ function Modal({id}: modalProps) {
             Confirm Deletion
           </h3>
           <p className="text-[#888EB0] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
-            Are you sure you want to delete invoice #XM9141? This action cannot
-            be undone.
+            Are you sure you want to delete invoice #{id}? This action cannot be
+            undone.
           </p>
           <div className="flex justify-end gap-x-3 mt-4">
             <form method="dialog">

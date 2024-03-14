@@ -6,9 +6,9 @@ const BASE_URL: string = "https://invoicesdata.onrender.com/data"
 
 export const fetchData = createAsyncThunk(
   "invoices/fetchData",
-  async (API: string) => {
+  async (API?: string) => {
     try {
-      const response = await fetch(API ? API : BASE_URL)
+      const response = await fetch(API || BASE_URL)
       if (!response.ok) {
         throw new Error("Failed to fetch data")
       }

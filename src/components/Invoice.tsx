@@ -1,5 +1,5 @@
 import {NavArrowRight} from "iconoir-react"
-import StatusBtn from "./StatusBtn"
+import StatusBtn from "./button/StatusBtn"
 import {allInterface} from "../interface/interfaceData"
 import {Link} from "react-router-dom"
 

@@ -1,20 +1,38 @@
 import {NavLink} from "react-router-dom"
-import {toggleFunc} from "../redux/invoiceSlice"
+import {fetchData, toggleFunc} from "../redux/invoiceSlice"
 import {NavArrowUp} from "iconoir-react"
 import {useAppDispatch} from "../redux/store"
 import {useSelector} from "react-redux"
 import {RootState} from "../interface/interfaceData"
+import {useEffect, useState} from "react"
 
 function Navbar() {
   const dispatch = useAppDispatch()
+  const [status, setStatus] = useState(() => "all")
+  const handleStatusChange = (newStatus: string) => {
+    setStatus(newStatus)
+  }
 
+  useEffect(() => {
+    let statusParams = ""
+    if (status !== "all") {
+      statusParams = `status=${status}`
+    }
+    dispatch(
+      fetchData(`https://invoicesdata.onrender.com/data?${statusParams}`)
+    )
+  }, [status, dispatch])
   const {allData, toggleSideBar} = useSelector(
     (store: RootState) => store.invoiceSlice
   )
-  toggleSideBar
-    ? document.body.classList.add("overflow-hidden")
-    : document.body.classList.remove("overflow-hidden")
 
+  useEffect(() => {
+    if (toggleSideBar) {
+      document.body.classList.add("overflow-hidden")
+    } else {
+      document.body.classList.remove("overflow-hidden")
+    }
+  }, [toggleSideBar])
   return (
     <div className="flex justify-between items-center max-[1040px]:mt-[56px] max-[570px]:mt-8">
       <div>
@@ -51,7 +69,8 @@ function Navbar() {
           >
             <label className="label cursor-pointer gap-x-3 justify-start">
               <input
-                defaultChecked
+                checked={status === "draft"}
+                onChange={() => handleStatusChange("draft")}
                 type="checkbox"
                 className="checkbox checkbox-info"
               />
@@ -59,7 +78,8 @@ function Navbar() {
             </label>
             <label className="label cursor-pointer gap-x-3 justify-start">
               <input
-                defaultChecked
+                checked={status === "pending"}
+                onChange={() => handleStatusChange("pending")}
                 type="checkbox"
                 className="checkbox checkbox-info"
               />
@@ -67,11 +87,21 @@ function Navbar() {
             </label>
             <label className="label cursor-pointer gap-x-3 justify-start">
               <input
-                defaultChecked
+                checked={status === "paid"}
+                onChange={() => handleStatusChange("paid")}
                 type="checkbox"
                 className="checkbox checkbox-info"
               />
               <span className="text-[12px]">Paid</span>
+            </label>
+            <label className="label cursor-pointer gap-x-3 justify-start">
+              <input
+                checked={status === "all"}
+                onChange={() => handleStatusChange("all")}
+                type="checkbox"
+                className="checkbox checkbox-info"
+              />
+              <span className="text-[12px]">All Status</span>
             </label>
           </ul>
         </div>

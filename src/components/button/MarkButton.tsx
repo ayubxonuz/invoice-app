@@ -1,7 +1,7 @@
 import {useState} from "react"
-import {allInterface} from "../interface/interfaceData"
-import {fetchUpdate, setSingleData} from "../redux/invoiceSlice"
-import {useAppDispatch} from "../redux/store"
+import {allInterface} from "../../interface/interfaceData"
+import {fetchUpdate, setSingleData} from "../../redux/invoiceSlice"
+import {useAppDispatch} from "../../redux/store"
 import {toast} from "sonner"
 
 type propsMark = {
@@ -24,7 +24,7 @@ function MarkButton({invoice}: propsMark) {
         <button
           onClick={async () => {
             if (invoice.status === "paid") {
-              return toast.warning("Mark's status has already been paid")
+              return toast.warning("Mark's status has already been paid !")
             }
 
             try {
@@ -55,7 +55,7 @@ function MarkButton({invoice}: propsMark) {
               ).then(() => {
                 setLoading(false)
                 dispatch(setSingleData(invoice))
-                toast.success("Mark changed successfully")
+                toast.success("Mark changed successfully !")
               })
             } catch (error: any) {
               setLoading(false)

@@ -1,6 +1,6 @@
 import {NavArrowLeft} from "iconoir-react"
 import {NavLink, useParams} from "react-router-dom"
-import StatusBtn from "../components/StatusBtn"
+import StatusBtn from "../components/button/StatusBtn"
 import Modal from "../components/Modal"
 import {useEffect, useState} from "react"
 import {RootState, allInterface} from "../interface/interfaceData"
@@ -12,7 +12,7 @@ import ModalBottom from "../components/ModalBottom"
 import {useAppDispatch} from "../redux/store"
 import {editToggle, setSingleData} from "../redux/invoiceSlice"
 import {useSelector} from "react-redux"
-import MarkButton from "../components/MarkButton"
+import MarkButton from "../components/button/MarkButton"
 
 function InvoicesDetail() {
   const [invoice, setInvoice] = useState<allInterface | null>(null)
@@ -227,7 +227,13 @@ function InvoicesDetail() {
           </div>
           <div className="w-full hidden mb-[22px] max-[641px]:block mt-10">
             <div className="flex items-center justify-between gap-x-2 ">
-              <button className="px-5 py-4 text-[11px] rounded-[25px] font-bold text-xs transition dark:hover:text-[#7E88C3] dark:bg-[#252945] hover:bg-[#DFE3FA] dark:text-[#DFE3FA] bg-[#f0f0f0]">
+              <button
+                onClick={() => {
+                  dispatch(editToggle())
+                  dispatch(setSingleData(invoice))
+                }}
+                className="px-5 py-4 text-[11px] rounded-[25px] font-bold text-xs transition dark:hover:text-[#7E88C3] dark:bg-[#252945] hover:bg-[#DFE3FA] dark:text-[#DFE3FA] bg-[#f0f0f0]"
+              >
                 Edit
               </button>
               <div className="flex items-center gap-x-2">

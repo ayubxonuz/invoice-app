@@ -8,11 +8,12 @@ import {useAppDispatch} from "../redux/store"
 import {toast} from "sonner"
 
 function EditDrawer() {
-  const {singleData} = useSelector((store: RootState) => store.invoiceSlice)
-
-  const {editToggleDrawer} = useSelector(
-    (state: RootState) => state.invoiceSlice
+  const {singleData, editToggleDrawer} = useSelector(
+    (store: RootState) => store.invoiceSlice
   )
+  editToggleDrawer
+    ? document.body.classList.add("overflow-hidden")
+    : document.body.classList.remove("overflow-hidden")
 
   const dispatch = useAppDispatch()
   const [loading, setLoading] = useState(false)
@@ -61,7 +62,7 @@ function EditDrawer() {
       dispatch(fetchUpdate(newInvoice)).then(() => {
         dispatch(setSingleData(newInvoice))
         setLoading(false)
-        toast.success("Invoice updated successfully")
+        toast.success("Invoice updated successfully !")
         dispatch(editToggle())
       })
     } catch (error: any) {
@@ -84,7 +85,7 @@ function EditDrawer() {
         } transition duration-500`}
       >
         <form onSubmit={handleSubmit}>
-          <div className="p-14 max-[550px]:p-5">
+          <div className="px-14 pt-14 pb-8 max-[550px]:p-5">
             <h3 className="text-2xl dark:text-[#FFFFFF] text-[#0C0E16] font-bold tracking-[-0.5px]">
               Edit <span className="text-[#888EB0]">#</span>
               {singleData?.id}
@@ -301,7 +302,7 @@ function EditDrawer() {
                 ))}
               </div>
 
-              <div className="flex gap-x-4 max-[625px]:justify-start">
+              <div className="flex gap-x-4 w-full max-[625px]:justify-start">
                 <div
                   data-tip={"number"}
                   className="tooltip tooltip-bottom w-min grid gap-y-4"
@@ -345,7 +346,7 @@ function EditDrawer() {
                     />
                   ))}
                 </div>
-                <div className="grid gap-y-4 max-[625px]:w-full">
+                <div className="grid gap-y-4 w-full justify-end">
                   <p className="text-[#7E88C3] dark:text-[#DFE3FA] text-xs tracking-[-0.25px]">
                     Total
                   </p>

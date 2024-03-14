@@ -18,7 +18,7 @@ function ModalBottom({id}: modalProps) {
     dispatch(fetchDelete(id))
       .then(() => {
         navigate("/")
-        toast.success("Invoice deleted successfully")
+        toast.success("Invoice deleted successfully !")
         setLoading(false)
       })
       .catch((error: any) => {
