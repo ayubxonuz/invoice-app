@@ -172,6 +172,7 @@ function Drawer() {
                 Street Address
               </span>
               <input
+                required
                 disabled={loading}
                 name="senderStreet"
                 type="text"
@@ -185,6 +186,7 @@ function Drawer() {
                     City
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="senderCity"
                     type="text"
@@ -197,6 +199,7 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="senderPostCode"
                     type="text"
@@ -209,6 +212,7 @@ function Drawer() {
                     Country
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="senderCountry"
                     type="text"
@@ -227,6 +231,7 @@ function Drawer() {
                     Client's Name
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="clientName"
                     type="text"
@@ -239,6 +244,7 @@ function Drawer() {
                     Client’s Email
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="clientEmail"
                     type="email"
@@ -251,6 +257,7 @@ function Drawer() {
                     Street Address
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="clientStreet"
                     type="text"
@@ -265,6 +272,7 @@ function Drawer() {
                     City
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="clientCity"
                     type="text"
@@ -277,6 +285,7 @@ function Drawer() {
                     Post Code
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="clientPostCode"
                     type="text"
@@ -290,6 +299,7 @@ function Drawer() {
                       Country
                     </span>
                     <input
+                      required
                       disabled={loading}
                       name="clientCountry"
                       type="text"
@@ -305,6 +315,7 @@ function Drawer() {
                     Invoice Date
                   </span>
                   <input
+                    required
                     disabled={loading}
                     name="invoiceDate"
                     type="date"
@@ -317,6 +328,7 @@ function Drawer() {
                     Payment Terms
                   </span>
                   <input
+                    required
                     disabled={loading}
                     title="number"
                     onChange={validateInputOnlyNumber}
@@ -331,6 +343,7 @@ function Drawer() {
                   Project Description
                 </span>
                 <input
+                  required
                   disabled={loading}
                   name="description"
                   type="text"
@@ -352,6 +365,7 @@ function Drawer() {
                 </p>
                 {rows.map((_, index) => (
                   <input
+                    required
                     disabled={loading}
                     key={index}
                     name={`itemName`}
@@ -372,6 +386,7 @@ function Drawer() {
                   </p>
                   {rows.map((row, index) => (
                     <input
+                      required
                       disabled={loading}
                       key={index}
                       type="text"
@@ -395,6 +410,7 @@ function Drawer() {
                   </p>
                   {rows.map((row, index) => (
                     <input
+                      required
                       disabled={loading}
                       key={index}
                       name={`itemPrice${index}`}
