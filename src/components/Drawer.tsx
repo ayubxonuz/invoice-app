@@ -436,8 +436,11 @@ function Drawer() {
                         key={index}
                         className="flex h-[48px] justify-between items-center"
                       >
-                        <p className="text-[#888EB0] dark:text-[#DFE3FA] font-bold tracking-[-0.25px] text-xs">
-                          £{total.toFixed(2)}
+                        <p className="text-[#888EB0] w-full dark:text-[#DFE3FA] font-bold tracking-[-0.25px] text-[11px]">
+                          £
+                          {total.toFixed(2).length > 6
+                            ? total.toFixed(2).slice(0, 5) + "..."
+                            : total.toFixed(2)}
                         </p>
                         <button
                           type="button"

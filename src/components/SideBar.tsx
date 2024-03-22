@@ -32,9 +32,9 @@ function SideBar() {
         <p className="border w-full max-[1040px]:h-full max-[1040px]:w-[2px] border-[#494E6E]"></p>
         <img
           className="my-6 max-[1040px]:m-0 max-[1040px]:w-8"
-          width={50}
-          height={50}
-          src="/user.svg"
+          width={40}
+          height={40}
+          src="/user.png"
           alt="User logo"
         />
       </div>
