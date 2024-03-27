@@ -31,7 +31,7 @@ function SideBar() {
         />
         <p className="border w-full max-[1040px]:h-full max-[1040px]:w-[2px] border-[#494E6E]"></p>
         <img
-          className="my-6 max-[1040px]:m-0 h-10 w-10 max-[1040px]:w-8"
+          className="my-6 max-[1040px]:m-0 h-8 w-8 max-[1040px]:w-8"
           width={40}
           height={40}
           src="/user.png"
